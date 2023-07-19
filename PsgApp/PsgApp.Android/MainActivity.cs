@@ -4,6 +4,10 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using Android.Content;
+using Xamarin.Essentials;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace PsgApp.Droid
 {
@@ -16,13 +20,19 @@ namespace PsgApp.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+            LoadApplication(Startup.Init(ConfigureServices));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        void ConfigureServices(HostBuilderContext ctx, IServiceCollection services)
+        {
+            //if we want to inject platform specific implementation
+            //services.AddSingleton<IDeviceInfo, AndroidDeviceInfo>();
+            //services.AddSingleton<IDeviceInfo, AndroidDeviceInfo>();
         }
     }
 }
